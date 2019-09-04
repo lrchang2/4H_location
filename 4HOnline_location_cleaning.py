@@ -3,8 +3,10 @@ import pandas as pd
 import numpy as np
 
 df = pd.read_csv("/Users/Lucy/Desktop/ProgramEnrollments.csv")
-df=df.where((pd.notnull(df)), "None") #change 'nan' to string "None"
+#change 'nan' to string "None"
+df=df.where((pd.notnull(df)), "None") 
 
+#functions
 def hasNumbers(inputString):
     return any(char.isdigit() for char in inputString)
 def containsCommas(inputString):
@@ -12,3 +14,21 @@ def containsCommas(inputString):
 
 #psuedo dictionary
 dict={'Adams': ['Camp Point','Mendon','Quincy', 'Hull'], 'Bond': ['Greenville', 'Kinmundy', 'Champaign', 'Sorento']}
+
+#sort 'Program: Location' into PEARS attributes
+for index, location in enumerate(df['Program: Location']):
+    if hasNumbers(location)==True:
+        df.loc[index,'Program Address'] = location
+        #print(df['Program Address'][index]==location)
+    if hasNumbers(location)==False:
+        if df['Group Enrollment Form: County'][index] in dict:
+            if df['Program: Location'][index] in dict.get(df["Group Enrollment Form: County"][index]):
+                df.loc[index,'Program City'] = location
+            else:
+                df.loc[index,'Program Name'] = location
+
+#clean 'Program Address' for consistency
+for index, address in enumerate(df['Program Address']):
+    if containsCommas(address) == True:
+        #a = address.split(',')
+        df.at[index,'Program Address']= address.split(',')
