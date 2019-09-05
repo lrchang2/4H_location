@@ -40,7 +40,7 @@ for index, address in enumerate(df['Program Address']):
         split_addresses_index.append(index)
         split_addresses.append(address.split(','))
 
-#
+#populate columns with split address values
 for split_index, split_list in enumerate(split_addresses):
     if hasNumbers(split_list[0]) == True:
         df.loc[split_addresses_index[split_index],'Program Address']= split_addresses[split_index][0]
@@ -49,3 +49,11 @@ for split_index, split_list in enumerate(split_addresses):
         df.loc[split_addresses_index[split_index],'Program Address']= split_addresses[split_index][1]
         if len(split_addresses[split_index]) > 2: 
             df.loc[split_addresses_index[split_index],'Program City']= split_addresses[split_index][2]
+          
+#put location names put into Program Address into Program Name
+for index, location in enumerate(df["Program Address"]):
+    if hasHashtag(location)==True: 
+        if df["Program Address"][index] not in roads:
+            df.loc[index,'Program Name'] = location
+            df.loc[index,'Program Address'] = "None"
+            
