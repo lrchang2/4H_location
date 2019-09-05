@@ -41,11 +41,11 @@ for index, address in enumerate(df['Program Address']):
         split_addresses.append(address.split(','))
 
 #
-for i, x in enumerate(a):
-    if hasNumbers(x[0]) == True:
-        df.loc[b[i],'Program Address']= a[i][0]
-        df.loc[b[i],'Program City']= a[i][1]
+for split_index, split_list in enumerate(split_addresses):
+    if hasNumbers(split_list[0]) == True:
+        df.loc[split_addresses_index[split_index],'Program Address']= split_addresses[split_index][0]
+        df.loc[split_addresses_index[split_index],'Program City']= split_addresses[split_index][1]
     else:
-        df.loc[b[i],'Program Address']= a[i][1]
-        if len(a[i]) > 2: 
-            df.loc[b[i],'Program City']= a[i][2]
+        df.loc[split_addresses_index[split_index],'Program Address']= split_addresses[split_index][1]
+        if len(split_addresses[split_index]) > 2: 
+            df.loc[split_addresses_index[split_index],'Program City']= split_addresses[split_index][2]
